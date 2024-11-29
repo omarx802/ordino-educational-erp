@@ -693,11 +693,20 @@ video {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
 }
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
 .ml-auto {
   margin-left: auto;
 }
 .mt-4 {
   margin-top: 1rem;
+}
+.-ml-1 {
+  margin-left: -0.25rem;
+}
+.mr-2 {
+  margin-right: 0.5rem;
 }
 .block {
   display: block;
@@ -719,6 +728,9 @@ video {
 }
 .aspect-square {
   aspect-ratio: 1 / 1;
+}
+.aspect-video {
+  aspect-ratio: 16 / 9;
 }
 .size-4 {
   width: 1rem;
@@ -783,11 +795,17 @@ video {
 .h-svh {
   height: 100svh;
 }
+.h-16 {
+  height: 4rem;
+}
 .min-h-0 {
   min-height: 0px;
 }
 .min-h-svh {
   min-height: 100svh;
+}
+.min-h-\[100vh\] {
+  min-height: 100vh;
 }
 .w-10 {
   width: 2.5rem;
@@ -912,6 +930,9 @@ video {
 .select-none {
   user-select: none;
 }
+.auto-rows-min {
+  grid-auto-rows: min-content;
+}
 .flex-col {
   flex-direction: column;
 }
@@ -977,6 +998,9 @@ video {
 }
 .rounded-sm {
   border-radius: calc(var(--radius) - 4px);
+}
+.rounded-xl {
+  border-radius: 0.75rem;
 }
 .border {
   border-width: 1px;
@@ -1044,6 +1068,9 @@ video {
 .bg-transparent {
   background-color: transparent;
 }
+.bg-muted\/50 {
+  background-color: hsl(var(--muted) / 0.5);
+}
 .fill-current {
   fill: currentColor;
 }
@@ -1055,6 +1082,9 @@ video {
 }
 .p-2 {
   padding: 0.5rem;
+}
+.p-4 {
+  padding: 1rem;
 }
 .p-6 {
   padding: 1.5rem;
@@ -1078,6 +1108,10 @@ video {
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
+}
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 .px-8 {
   padding-left: 2rem;
@@ -1114,6 +1148,10 @@ video {
   font-size: 1.5rem;
   line-height: 2rem;
 }
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -1129,6 +1167,9 @@ video {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+.font-bold {
+  font-weight: 700;
 }
 .font-medium {
   font-weight: 500;
@@ -1916,6 +1957,14 @@ body {
 
   .md\:flex {
     display: flex;
+  }
+
+  .md\:min-h-min {
+    min-height: min-content;
+  }
+
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .md\:text-sm {
