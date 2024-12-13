@@ -1,17 +1,24 @@
 "use client"
-
+import Link from "next/link"
+import { SearchForm } from "@/src/components/search-form"
 import * as React from "react"
 import {
   AudioWaveform,
-  BookOpen,
-  Bot,
+  Sparkles,
   Command,
   Frame,
   GalleryVerticalEnd,
   Map,
   PieChart,
-  Settings2,
-  SquareTerminal,
+  Inbox,
+  MessageSquareMore,
+  Package,
+  CircleDollarSign,
+  Users,
+  LayoutDashboard,
+  ShoppingCart,
+  Truck,
+
 } from "lucide-react"
 
 import { NavMain } from "@/src/components/nav-main"
@@ -50,91 +57,60 @@ const data = {
       plan: "Free",
     },
   ],
-  navMain: [
+navMain: [
     {
-      title: "Playground",
+      title: "Ask AI",
       url: "#",
-      icon: SquareTerminal,
+      icon: Sparkles,
+    },
+    {
+      title: "Dashboard",
+      url: "/inside",
+      icon: LayoutDashboard,
       isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
     },
     {
-      title: "Models",
+      title: "Discussion",
+      badge: "128",
       url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+      icon: MessageSquareMore,
+
     },
     {
-      title: "Documentation",
+      title: "Inbox",
       url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+      icon: Inbox,
+      badge: "10",
     },
     {
-      title: "Settings",
+      title: "Sales",
       url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
+      icon: ShoppingCart,
+      badge: "10",
+    },
+    {
+      title: "Purchases",
+      url: "#",
+      icon: Truck,
+      badge: "10",
+    },
+    {
+      title: "Inventory",
+      url: "#",
+      icon: Package,
+      badge: "10",
+    },
+    {
+      title: "Finance",
+      url: "#",
+      icon: CircleDollarSign,
+      badge: "",
+    },
+    {
+      title: "HR",
+      url: "#",
+      icon: Users,
+      badge: "",
     },
   ],
   projects: [
@@ -163,7 +139,26 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <SearchForm />
+
+        <NavMain
+          items={data.navMain.map((item) => ({
+            ...item,
+            component: (
+              <Link href={item.url} key={item.title}>
+                <a className="flex items-center space-x-2">
+                  <item.icon className="w-5 h-5" />
+                  <span>{item.title}</span>
+                  {item.badge && (
+                    <span className="ml-auto text-sm text-gray-500">
+                      {item.badge}
+                    </span>
+                  )}
+                </a>
+              </Link>
+            ),
+          }))}
+        />
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
@@ -171,5 +166,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
