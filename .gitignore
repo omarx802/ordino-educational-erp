@@ -24,7 +24,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # backend files (env and cache)
-/backend/.env/
+.env
+/backend/.env
 /backend/__pycache__/
 /backend/src/**/__pycache__/
 /backend/venv/
