@@ -8,13 +8,8 @@ from src.services.users import create_user_account, get_user_team
 from src.core.security import oauth2_scheme
 from src.responses.user import UserResponse;
 
-router = APIRouter(
-    prefix="/users",
-    tags=["Users"],
-    responses={404: {"description": "Not found"}},
-)
 
-user_router = APIRouter(
+router = APIRouter(
     prefix="/users",
     tags=["Users"],
     responses={404: {"description": "Not found"}},
@@ -28,11 +23,11 @@ async def create_user(data: CreateUserRequest, db: Session = Depends(get_db)):
     return JSONResponse(content=payload)
 
 
-@user_router.post('/me', status_code=status.HTTP_200_OK, response_model=UserResponse)
+@router.post('/me', status_code=status.HTTP_200_OK, response_model=UserResponse)
 def get_user_detail(request: Request):
     return request.user
 
-@user_router.get("/me/team", response_model=TeamBase)
+@router.get("/me/team", response_model=TeamBase)
 async def fetch_user_team(request: Request, db: Session = Depends(get_db)):
     user_id = request.user.id
     team = await get_user_team(db, user_id)
