@@ -2,7 +2,7 @@ from fastapi import APIRouter, status, Depends, Header
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from src.core.database import get_db
-from src.auth.services import get_token, get_refresh_token
+from src.services.auth import get_token, get_refresh_token
 
 router = APIRouter(
     prefix="/auth",

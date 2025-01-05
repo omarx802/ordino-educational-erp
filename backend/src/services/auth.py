@@ -3,7 +3,7 @@ from fastapi.exceptions import HTTPException
 from src.core.security import verify_password
 from src.core.config import get_settings
 from datetime import timedelta
-from src.auth.responses import TokenResponse
+from src.responses.auth import TokenResponse
 from src.core.security import create_access_token, create_refresh_token, get_token_payload
 
 settings = get_settings()
