@@ -3,13 +3,7 @@ import Link from "next/link"
 import { SearchForm } from "@/src/components/search-form"
 import * as React from "react"
 import {
-  AudioWaveform,
   Sparkles,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
   Inbox,
   MessageSquareMore,
   Package,
@@ -22,9 +16,8 @@ import {
 } from "lucide-react"
 
 import { NavMain } from "@/src/components/nav-main"
-import { NavProjects } from "@/src/components/nav-projects"
 import { NavUser } from "@/src/components/nav-user"
-import { TeamSwitcher } from "@/src/components/team-switcher"
+import { TeamDisplay } from "@/src/components/team-display"
 import {
   Sidebar,
   SidebarContent,
@@ -33,30 +26,9 @@ import {
   SidebarRail,
 } from "@/src/components/ui/sidebar"
 
-// This is sample data.
+
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
+
 navMain: [
     {
       title: "Ask AI",
@@ -113,34 +85,16 @@ navMain: [
       badge: "",
     },
   ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <TeamDisplay />
       </SidebarHeader>
       <SidebarContent>
         <SearchForm />
-
         <NavMain
           items={data.navMain.map((item) => ({
             ...item,
@@ -159,10 +113,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             ),
           }))}
         />
-        <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

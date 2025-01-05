@@ -6,7 +6,6 @@ export default function Page() {
     <>
       <div className="fixed top-2 right-2 p-2">
         <ModeToggle />
-        212.7 26.8% 83.9%
       </div>
     <div className="flex h-screen w-full items-center justify-center px-4">
       <CreateAccount />

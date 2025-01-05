@@ -13,17 +13,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, ChevronDown } from "lucide-react"
 
 import { Button } from "@/src/components/ui/button"
-import { Checkbox } from "@/src/components/ui/checkbox"
+
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/src/components/ui/dropdown-menu"
 import { Input } from "@/src/components/ui/input"
@@ -123,7 +120,7 @@ export const columns: ColumnDef<Items>[] = [
   },
   {
     accessorKey: "limit",
-    header: () => <div className="text-right">Item's Limit</div>,
+    header: () => <div className="text-right">Items Limit</div>,
     cell: ({ row }) => (
       <div className="text-right font-medium">{row.getValue("limit")}</div>
     ),
