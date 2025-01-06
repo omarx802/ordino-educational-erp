@@ -1,25 +1,26 @@
+
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
+/frontend/node_modules
+/frontend/.pnp
+/frontend/.pnp.js
+/frontend/.yarn/install-state.gz
 
 # testing
-/coverage
+/frontend/coverage
 
 # next.js
-/.next/
-/out/
+/frontend/.next
+/frontend/out
 
 # production
-/build
+/frontend/build
 
 # misc
 .DS_Store
 *.pem
 
 # debug
-npm-debug.log*
+/frontend/npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
@@ -28,11 +29,11 @@ yarn-error.log*
 /backend/.env
 /backend/__pycache__/
 /backend/src/**/__pycache__/
-/backend/venv/
+venv/
 
 # vercel
-.vercel
+/frontend/.vercel
 
 # typescript
-*.tsbuildinfo
-next-env.d.ts
+/frontend/*.tsbuildinfo
+/frontend/next-env.d.ts

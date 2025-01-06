@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 import {
@@ -7,7 +7,6 @@ import {
     CardHeader,
     CardTitle,
   } from "@/src/components/ui/card"
-
 
 
 const data = [
