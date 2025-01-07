@@ -1,7 +1,8 @@
 "use client";
 
+import { Progress } from "@/src/components/ui/progress";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import "../globals.css";
 import { AppSidebar } from "@/src/components/app-sidebar";
 import {
@@ -20,10 +21,12 @@ import {
 } from "@/src/components/ui/sidebar";
 import { ModeToggle } from "@/src/components/mode-toggle";
 
+
 export default function Sundowns({ children }: { children: React.ReactNode }) {
 
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const pathname = usePathname();
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -32,9 +35,14 @@ export default function Sundowns({ children }: { children: React.ReactNode }) {
       setLoading(false);
     }
   }, [router]);
-  if (loading) return <p>Loading...</p>; // Prevents content flashing before redirect
+  if (loading) return(
+    <div className="flex flex-col items-center justify-center min-h-screen space-y-1">
+    <Progress value={66} className="w-[60%]" />
+  </div>
+  );
 
 
+  const activePage = pathname.split("/").filter(Boolean).pop() || "Dashboard";
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -50,7 +58,7 @@ export default function Sundowns({ children }: { children: React.ReactNode }) {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Dashboard</BreadcrumbPage>
+                  <BreadcrumbPage>{activePage}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
