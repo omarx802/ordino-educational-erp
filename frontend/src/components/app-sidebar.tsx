@@ -1,6 +1,8 @@
 "use client"
+
 import Link from "next/link"
 import { SearchForm } from "@/src/components/search-form"
+import { usePathname } from "next/navigation"
 import * as React from "react"
 import {
   Sparkles,
@@ -39,7 +41,6 @@ navMain: [
       title: "Dashboard",
       url: "/inside/dashboard",
       icon: LayoutDashboard,
-      isActive: true,
     },
     {
       title: "Discussions",
@@ -88,6 +89,8 @@ navMain: [
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname()
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -98,6 +101,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain
           items={data.navMain.map((item) => ({
             ...item,
+            isActive: pathname === item.url,
             component: (
               <Link href={item.url} key={item.title}>
                 <a className="flex items-center space-x-2">

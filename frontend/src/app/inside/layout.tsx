@@ -1,6 +1,5 @@
 "use client";
 
-import { Progress } from "@/src/components/ui/progress";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import "../globals.css";
@@ -13,6 +12,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/src/components/ui/breadcrumb";
+import { Progress } from "@/src/components/ui/progress";
 import { Separator } from "@/src/components/ui/separator";
 import {
   SidebarInset,
@@ -37,12 +37,14 @@ export default function Sundowns({ children }: { children: React.ReactNode }) {
   }, [router]);
   if (loading) return(
     <div className="flex flex-col items-center justify-center min-h-screen space-y-1">
-    <Progress value={66} className="w-[60%]" />
+    <Progress value={70} className="w-[60%]" />
   </div>
   );
 
 
-  const activePage = pathname.split("/").filter(Boolean).pop() || "Dashboard";
+  const activePage = pathname.split("/").filter(Boolean).pop() || "ERROR";
+  const Item_SELECTED = activePage.charAt(0).toUpperCase() + activePage.slice(1).toLowerCase();
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -58,7 +60,7 @@ export default function Sundowns({ children }: { children: React.ReactNode }) {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>{activePage}</BreadcrumbPage>
+                  <BreadcrumbPage>{ Item_SELECTED }</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
