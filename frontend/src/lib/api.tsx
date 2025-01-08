@@ -114,3 +114,28 @@ export const loginUser = async (email: string, password: string) => {
 export const logoutUser = () => {
   localStorage.removeItem("token");
 };
+
+//ASK AI
+export const sendMessage = async (message: string) => {
+  const conversationId = "your_conversation_id";
+
+  const response = await fetch(`${API_BASE_URL}/chat/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      conversation_id: conversationId,
+      message,
+      role: "user",
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Error sending message");
+  }
+
+  const data = await response.json();
+  return data;
+};
+

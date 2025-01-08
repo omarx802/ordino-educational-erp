@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from src.routes.users import router as user_router
 from src.routes.auth import router as auth_router
+from src.routes.askai import router as chat_router
 from src.core.security import JWTAuth
 from starlette.middleware.authentication import AuthenticationMiddleware
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,6 +20,7 @@ app.add_middleware(
 
 app.include_router(user_router)
 app.include_router(auth_router)
+app.include_router(chat_router)
 app.add_middleware(AuthenticationMiddleware, backend=JWTAuth())
 
 
