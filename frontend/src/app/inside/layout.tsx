@@ -65,7 +65,7 @@ export default function Sundowns({ children }: { children: React.ReactNode }) {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="fixed top-1 right-2 p-2">
+          <div className="absolute top-1 right-2 p-2">
             <ModeToggle />
           </div>
         </header>

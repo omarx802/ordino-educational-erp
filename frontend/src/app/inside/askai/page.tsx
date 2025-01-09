@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import ReactMarkdown from "react-markdown";
 import { Send } from "lucide-react";
 import { Input } from "@/src/components/ui/input";
 import { cn } from "@/src/lib/utils";
@@ -13,7 +14,6 @@ import { Button } from "@/src/components/ui/button";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
 } from "@/src/components/ui/card";
 import { sendMessage } from "@/src/lib/api";
@@ -74,23 +74,24 @@ export default function AskAI() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <div className="space-y-6">
             {messages.map((message, index) => (
               <div
                 key={index}
                 className={cn(
-                  "flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm",
+                  "flex max-w-[75%] flex-col gap-3 rounded-lg px-6 justify-center py-2 text-sm whitespace-pre-wrap break-words",
                   message.role === "user"
                     ? "ml-auto bg-primary text-primary-foreground"
                     : "bg-muted"
                 )}
               >
-                {message.content}
+                <ReactMarkdown>{message.content}</ReactMarkdown>
               </div>
             ))}
           </div>
         </CardContent>
-        <CardFooter>
+      </Card>
+      <div className="fixed bottom-0 left-0 w-full bg-transparent shadow-md p-4">
           <form
             onSubmit={(event) => {
               event.preventDefault();
@@ -98,23 +99,22 @@ export default function AskAI() {
               handleSendMessage(input);
               setInput("");
             }}
-            className="flex w-full items-center space-x-2"
+            className="flex w-full max-w-2xl mx-auto items-center space-x-2"
           >
             <Input
               id="message"
               placeholder="Type your message..."
-              className="flex-1"
+              className="flex-1 rounded-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               autoComplete="off"
               value={input}
               onChange={(event) => setInput(event.target.value)}
             />
-            <Button type="submit" size="icon" disabled={inputLength === 0}>
+            <Button type="submit" size="icon" disabled={inputLength === 0} className="rounded-full">
               <Send />
               <span className="sr-only">Send</span>
             </Button>
           </form>
-        </CardFooter>
-      </Card>
+        </div>
     </>
   );
 }
