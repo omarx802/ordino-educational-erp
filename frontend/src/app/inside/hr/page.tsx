@@ -1,18 +1,17 @@
+"use client";
 
-import Image from "next/image";
-import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar"
-
+import { useState, useEffect } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
+import { fetchUserTeam, fetchTeamUsers } from "@/src/lib/api";
 import {
   Table,
   TableBody,
   TableCaption,
   TableCell,
-
   TableHead,
   TableHeader,
   TableRow,
 } from "@/src/components/ui/table";
-
 import {
   Card,
   CardContent,
@@ -20,49 +19,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card";
-
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@/src/components/ui/tabs";
-
-const teamMembers = [
-  {
-    avatar: "/avatars/user1.png",
-    name: "John",
-    surname: "Doe",
-    email: "john.doe@example.com",
-    role: "Software Engineer",
-    memberSince: "2020-01-15",
-  },
-  {
-    avatar: "/avatars/user2.png",
-    name: "Jane",
-    surname: "Doe",
-    email: "jane.smith@example.com",
-    role: "Product Manager",
-    memberSince: "2019-03-22",
-  },
-  {
-    avatar: "/avatars/user3.png",
-    name: "Michael",
-    surname: "Joe",
-    email: "michael.johnson@example.com",
-    role: "UX Designer",
-    memberSince: "2021-06-10",
-  },
-  {
-    avatar: "/avatars/user4.png",
-    name: "Emily",
-    surname: "Doe",
-    email: "emily.davis@example.com",
-    role: "QA Engineer",
-    memberSince: "2018-11-05",
-  },
-];
-
 
 export default function HR() {
   const today = new Date().toLocaleDateString("fr-FR", {
@@ -71,24 +33,55 @@ export default function HR() {
     day: "numeric",
   });
 
+  interface User {
+    id: number;
+    avatar?: string;
+    surname: string;
+    name: string;
+    role: string;
+    registered_in: string;
+    email: string;
+  }
+
+  interface TeamMembersResponse {
+    members: User[] | null;
+  }
+
+  const [teamMembers, setTeamMembers] = useState<TeamMembersResponse | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token") || "";
+
+    const getTeamData = async () => {
+      try {
+        
+        const teamData = await fetchUserTeam(token);
+        const teamId = teamData.id;
+
+        const teamMembersData = await fetchTeamUsers(teamId, token);
+        setTeamMembers(teamMembersData);
+      } catch {
+        setError("Failed to load team data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getTeamData();
+  }, []);
+
+  // Render loading or error message
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+
+  // Ensure teamMembers is not null before rendering
+  if (!teamMembers || !teamMembers.members) {
+    return <p>No team members available.</p>;
+  }
+
   return (
-    <>
-      <div className="md:hidden">
-        <Image
-          src="/examples/dashboard-light.png"
-          width={1280}
-          height={866}
-          alt="Dashboard"
-          className="block dark:hidden"
-        />
-        <Image
-          src="/examples/dashboard-dark.png"
-          width={1280}
-          height={866}
-          alt="Dashboard"
-          className="hidden dark:block"
-        />
-      </div>
       <div className="hidden flex-col md:flex">
         <div className="flex-1 space-y-4 p-8 pt-6">
           <div className="flex items-center justify-between space-y-2">
@@ -97,9 +90,7 @@ export default function HR() {
           <Tabs defaultValue="overview" className="space-y-4">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics">
-                Analytics
-              </TabsTrigger>
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
               <TabsTrigger value="manage" disabled>
                 Manage
               </TabsTrigger>
@@ -109,9 +100,7 @@ export default function HR() {
                 <Card className="w-full">
                   <CardHeader>
                     <CardTitle>Team Members</CardTitle>
-                    <CardDescription>
-                      View all your team members.
-                    </CardDescription>
+                    <CardDescription>View all your team members.</CardDescription>
                   </CardHeader>
                   <CardContent className="overflow-x-auto">
                     <Table>
@@ -126,18 +115,20 @@ export default function HR() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {teamMembers.map((member) => (
+                        {teamMembers.members.map((member: User) => (
                           <TableRow key={member.email}>
                             <TableCell>
-                                <Avatar>
-                                  <AvatarImage src={member.avatar} />
-                                  <AvatarFallback>{member.name[0]+member.surname[0]}</AvatarFallback>
-                                </Avatar>
+                              <Avatar>
+                                <AvatarImage src={member?.avatar} />
+                                <AvatarFallback>
+                                  {member.name[0] + member.surname[0]}
+                                </AvatarFallback>
+                              </Avatar>
                             </TableCell>
-                            <TableCell className="font-medium">{member.name}</TableCell>
+                            <TableCell className="font-medium">{member.name} {member.surname}</TableCell>
                             <TableCell>{member.email}</TableCell>
                             <TableCell>{member.role}</TableCell>
-                            <TableCell>{member.memberSince}</TableCell>
+                            <TableCell>{member.registered_in}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -149,6 +140,5 @@ export default function HR() {
           </Tabs>
         </div>
       </div>
-    </>
   );
 }

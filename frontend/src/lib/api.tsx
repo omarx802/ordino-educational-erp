@@ -57,9 +57,35 @@ export const registerUser = async (name: string, surname: string, email: string,
 };
 
 
+
+// get all team users/members
+export async function fetchTeamUsers(teamId: number, token?: string) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/teams/${teamId}/members`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        ...(token ? { "Authorization": `Bearer ${token}` } : {}),
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch team members, status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching team members:", error);
+    throw error;
+  }
+}
+
+
+
+// GET USER TEAM foreignkey team_id
 export async function fetchUserTeam(token: string) {
   try {
-    const response = await fetch("http://127.0.0.1:8000/users/me/team", {
+    const response = await fetch(`${API_BASE_URL}/users/me/team`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -72,10 +98,10 @@ export async function fetchUserTeam(token: string) {
     }
 
     const teamData = await response.json();
-    return teamData; //{ id: 1, name: "Projet Inc", total_revenue: 99999 }
+    return teamData;
   } catch (error) {
     console.error("Error fetching user team:", error);
-    return null;
+    throw error;
   }
 }
 
