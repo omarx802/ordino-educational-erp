@@ -1,13 +1,11 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
+import * as React from "react";
+import { useTheme } from "next-themes";
 import { ChevronDown } from "lucide-react"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
-
 import { cn } from "@/src/lib/utils"
-import { toast } from "@/hooks/use-toast"
-import { Button, buttonVariants } from "@/src/components/ui/button"
+import { buttonVariants } from "@/src/components/ui/button"
 import {
   Form,
   FormControl,
@@ -19,43 +17,23 @@ import {
 } from "@/src/components/ui/form"
 import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group"
 
-const appearanceFormSchema = z.object({
-  theme: z.enum(["light", "dark"], {
-    required_error: "Please select a theme.",
-  }),
-  font: z.enum(["inter", "manrope", "system"], {
-    invalid_type_error: "Select a font",
-    required_error: "Please select a font.",
-  }),
-})
 
-type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
 
-// This can come from your database or API.
-const defaultValues: Partial<AppearanceFormValues> = {
-  theme: "light",
-}
 
 export function AppearanceForm() {
-  const form = useForm<AppearanceFormValues>({
-    resolver: zodResolver(appearanceFormSchema),
-    defaultValues,
-  })
+  const form = useForm()
 
-  function onSubmit(data: AppearanceFormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
-  }
+  const { setTheme } = useTheme();
+  const black = () => {
+    setTheme("dark");
+  };
+  const white = () => {
+    setTheme("light");
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form className="space-y-8">
         <FormField
           control={form.control}
           name="font"
@@ -86,7 +64,6 @@ export function AppearanceForm() {
           )}
         />
         <FormField
-          control={form.control}
           name="theme"
           render={({ field }) => (
             <FormItem className="space-y-1">
@@ -103,7 +80,7 @@ export function AppearanceForm() {
                 <FormItem>
                   <FormLabel className="[&:has([data-state=checked])>div]:border-primary">
                     <FormControl>
-                      <RadioGroupItem value="light" className="sr-only" />
+                      <RadioGroupItem value="light" onClick={white} className="sr-only" />
                     </FormControl>
                     <div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
                       <div className="space-y-2 rounded-sm bg-[#ecedef] p-2">
@@ -129,7 +106,7 @@ export function AppearanceForm() {
                 <FormItem>
                   <FormLabel className="[&:has([data-state=checked])>div]:border-primary">
                     <FormControl>
-                      <RadioGroupItem value="dark" className="sr-only" />
+                      <RadioGroupItem value="dark" onClick={black} className="sr-only" />
                     </FormControl>
                     <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground">
                       <div className="space-y-2 rounded-sm bg-slate-950 p-2">
@@ -156,8 +133,6 @@ export function AppearanceForm() {
             </FormItem>
           )}
         />
-
-        <Button type="submit">Update preferences</Button>
       </form>
     </Form>
   )

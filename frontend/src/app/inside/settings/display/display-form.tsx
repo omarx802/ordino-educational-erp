@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
 import { toast } from "@/hooks/use-toast"
 import { Button } from "@/src/components/ui/button"
 import { Checkbox } from "@/src/components/ui/checkbox"
@@ -19,28 +18,40 @@ import {
 
 const items = [
   {
-    id: "recents",
-    label: "Recents",
+    id: "askai",
+    label: "Ask AI",
   },
   {
-    id: "home",
-    label: "Home",
+    id: "dashboard",
+    label: "Dashboard",
   },
   {
-    id: "applications",
-    label: "Applications",
+    id: "discussions",
+    label: "Discussions",
   },
   {
-    id: "desktop",
-    label: "Desktop",
+    id: "inbox",
+    label: "Inbox",
   },
   {
-    id: "downloads",
-    label: "Downloads",
+    id: "sales",
+    label: "Sales",
   },
   {
-    id: "documents",
-    label: "Documents",
+    id: "purchases",
+    label: "Purchases",
+  },
+  {
+    id: "inventory",
+    label: "Inventory",
+  },
+  {
+    id: "finance",
+    label: "Finance",
+  },
+  {
+    id: "hr",
+    label: "HR",
   },
 ] as const
 
@@ -54,7 +65,7 @@ type DisplayFormValues = z.infer<typeof displayFormSchema>
 
 // This can come from your database or API.
 const defaultValues: Partial<DisplayFormValues> = {
-  items: ["recents", "home"],
+  items: ["askai", "dashboard","discussions","inbox","sales","purchases","inventory"],
 }
 
 export function DisplayForm() {
@@ -125,7 +136,7 @@ export function DisplayForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Update display</Button>
+        <Button type="submit">Update Display</Button>
       </form>
     </Form>
   )

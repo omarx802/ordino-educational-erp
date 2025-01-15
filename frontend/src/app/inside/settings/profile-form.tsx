@@ -18,13 +18,7 @@ import {
   FormMessage,
 } from "@/src/components/ui/form"
 import { Input } from "@/src/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/src/components/ui/select"
+
 
 const profileFormSchema = z.object({
   username: z
@@ -54,7 +48,6 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>
 
 // This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
-  bio: "I own a computer.",
   urls: [
     { value: "https://shadcn.com" },
     { value: "http://twitter.com/shadcn" },
@@ -92,39 +85,50 @@ export function ProfileForm() {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="your name here..." {...field} />
               </FormControl>
               <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
+                This is your public display name.
+                 You can only change this once every year.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Surname</FormLabel>
+              <FormControl>
+                <Input placeholder="your surname here..." {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public display surname.
+                 You can only change this once every year.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="email"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="m@example.com">m@example.com</SelectItem>
-                  <SelectItem value="m@google.com">m@google.com</SelectItem>
-                  <SelectItem value="m@support.com">m@support.com</SelectItem>
-                </SelectContent>
-              </Select>
+              <FormControl>
+                <Input disabled type="email" placeholder="Email" />
+              </FormControl>
               <FormDescription>
-                You can manage verified email addresses in your{" "}
-                <Link href="/examples/forms">email settings</Link>.
+                This is your public display email.
+                 You can only change this in your
+                 <Link href="/inside/settings/account"> Account Settings.</Link>
               </FormDescription>
               <FormMessage />
             </FormItem>
