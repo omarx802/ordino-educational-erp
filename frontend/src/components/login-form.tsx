@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -13,13 +13,8 @@ export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");  // Error state
-  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
-  // Apply dark mode class only after the component mounts on the client
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -35,18 +30,18 @@ export function LoginForm() {
   
       if (response && response.access_token) {
         localStorage.setItem("token", response.access_token); // Save JWT Token
-        router.push("/inside/dashboard"); // Redirection
+        router.push("/inside/dashboard"); // redirection
       } else {
         setError("Invalid credentials");
       }
     } catch (error) {
-      console.error("Login error:", error);  // Log error for debugging
+      console.error("Login error:", error);
       setError("Login failed. Please try again.");
     }
   };
 
   return (
-    <div className={isClient ? "system" : ""}> {/* Apply dark mode after client-side rendering */}
+    <div>
       <Card className="mx-auto max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl text-center">Sign in</CardTitle>

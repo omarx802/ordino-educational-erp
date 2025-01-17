@@ -1,5 +1,7 @@
 "use client";
 
+import React, { useState, useEffect } from "react"
+import { fetchUserTeam } from "@/src/lib/api"
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 import {
     Card,
@@ -7,6 +9,7 @@ import {
     CardHeader,
     CardTitle,
   } from "@/src/components/ui/card"
+
 
 
 const data = [
@@ -92,6 +95,25 @@ export function Overview() {
 }
 
 export default function DashboardCard() {
+
+  const [team, setTeam] = useState<{ id: number; name: string, total_revenue: number, sales: number } | null>(null)
+  
+  useEffect(() => {
+    const fetchTeam = async () => {
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
+      if (token) {
+        try {
+          const teamData = await fetchUserTeam(token)
+          setTeam(teamData)
+        } catch (error) {
+          console.error("Failed to fetch team:", error)
+        }
+      }
+    }
+
+    fetchTeam()
+  }, [])
+
   return (
     <div className="space-y-4">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -112,7 +134,7 @@ export default function DashboardCard() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
+            <div className="text-2xl font-bold">${team?.total_revenue}</div>
             <p className="text-xs text-muted-foreground">+20.1% from last month</p>
           </CardContent>
         </Card>
@@ -157,7 +179,7 @@ export default function DashboardCard() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
+            <div className="text-2xl font-bold">+{team?.sales}</div>
             <p className="text-xs text-muted-foreground">+19% from last month</p>
           </CardContent>
         </Card>

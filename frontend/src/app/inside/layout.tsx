@@ -21,12 +21,25 @@ import {
 } from "@/src/components/ui/sidebar";
 import { ModeToggle } from "@/src/components/mode-toggle";
 
+const data = {
+  navMain: [
+    { title: "Ask AI", url: "/inside/askai" },
+    { title: "Dashboard", url: "/inside/dashboard" },
+    { title: "Discussions", url: "/inside/discussions" },
+    { title: "Inbox", url: "/inside/inbox" },
+    { title: "Sales", url: "/inside/sales" },
+    { title: "Purchases", url: "/inside/purshases" },
+    { title: "Inventory", url: "/inside/inventory" },
+    { title: "Finance", url: "/inside/finance" },
+    { title: "HR", url: "/inside/hr" },
+  ],
+};
 
-export default function Sundowns({ children }: { children: React.ReactNode }) {
-
+export default function Format({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
   const pathname = usePathname();
+  const router = useRouter();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -35,15 +48,16 @@ export default function Sundowns({ children }: { children: React.ReactNode }) {
       setLoading(false);
     }
   }, [router]);
-  if (loading) return(
-    <div className="flex flex-col items-center justify-center min-h-screen space-y-1">
-    <Progress value={70} className="w-[60%]" />
-  </div>
-  );
 
+  if (loading)
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen space-y-1">
+        <Progress value={70} className="w-[60%]" />
+      </div>
+    );
 
-  const activePage = pathname.split("/").filter(Boolean).pop() || "ERROR";
-  const Item_SELECTED = activePage.charAt(0).toUpperCase() + activePage.slice(1).toLowerCase();
+  const itemTitle =
+    data.navMain.find((item) => item.url === pathname)?.title || "Unknown";
 
   return (
     <SidebarProvider>
@@ -56,11 +70,11 @@ export default function Sundowns({ children }: { children: React.ReactNode }) {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">Platform</BreadcrumbLink>
+                  <BreadcrumbLink href="/inside/dashboard">Platform</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>{ Item_SELECTED }</BreadcrumbPage>
+                  <BreadcrumbPage>{itemTitle}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

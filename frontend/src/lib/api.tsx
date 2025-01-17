@@ -4,10 +4,13 @@ const API_BASE_URL = "http://127.0.0.1:8000"; // a remplacer
 
 export interface User {
   id: string;
+  avatar: string;
   name: string;
   surname: string;
   email: string;
+  role: string;
   is_active: boolean;
+  registered_in: string;
 }
 
 // USER DETAILS
@@ -40,10 +43,14 @@ export const fetchUser = async (): Promise<User | null> => {
 
 // SIGN UP
 export const registerUser = async (name: string, surname: string, email: string, password: string) => {
+  const token = localStorage.getItem("token");
   try {
     const response = await fetch(`${API_BASE_URL}/users`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ name, surname, email, password }),
     });
 

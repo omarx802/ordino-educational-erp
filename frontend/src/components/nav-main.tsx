@@ -10,9 +10,7 @@ import {
   SidebarGroupLabel,
 } from "@/src/components/ui/sidebar"
 
-export function NavMain({
-  items,
-}: {
+export function NavMain({ items }: {
   items: {
     title: string
     url: string
