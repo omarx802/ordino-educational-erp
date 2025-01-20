@@ -172,3 +172,33 @@ export const sendMessage = async (message: string) => {
   return data;
 };
 
+// CHAT
+export const fetcher = async (url: string) => {
+  const token = localStorage.getItem("token");
+  const response = await fetch(`${API_BASE_URL}${url}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Accept": "application/json",
+    },
+  });
+  if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+  return response.json();
+};
+
+
+export const createWebSocket = (path: string): WebSocket => {
+  const wsProtocol = API_BASE_URL.startsWith("https") ? "wss" : "ws";
+  return new WebSocket(`${wsProtocol}://${new URL(API_BASE_URL).host}${path}`);
+};
+
+// Chat-related API
+export const getChatHistory = async () => {
+  return fetcher("/chat/history");
+};
+
+export const connectToChat = (): WebSocket => {
+  return createWebSocket("/ws/chat");
+};
