@@ -68,7 +68,13 @@ Follow these steps to install and run the project locally:
    ```bash
    pip install -r requirements.txt
    ```
-4. Run the FastAPI server:
+4. Set up environment variables:
+   Create a `.env` file in the root directory and add the following variables:
+   ```ini
+   URL_DATABASE="your_url_database"
+   GROQ_API_KEY="your_Groq_api_key_here"
+   ```
+5. Run the FastAPI server:
    ```bash
    uvicorn app:app --reload
    ```
