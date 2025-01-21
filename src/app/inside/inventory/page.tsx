@@ -13,14 +13,17 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown } from "lucide-react"
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/src/components/ui/button"
-
+import { Checkbox } from "@/src/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/src/components/ui/dropdown-menu"
 import { Input } from "@/src/components/ui/input"
@@ -36,31 +39,31 @@ import {
 const data: Items[] = [
   {
     id: "m5gr84i9",
-    name : "milk",
+    name : "oussema",
     stock: 525,
     limit: 300,
   },
   {
     id: "m5gr84i9",
-    name : "cups" ,
+    name : "omar" ,
     stock: 450,
     limit: 300,
   },
   {
     id: "m5gr84i9",
-    name : "water" ,
+    name : "jalel" ,
     stock: 450,
     limit: 300,
   },
   {
     id: "m5gr84i9",
-    name : "fruits" ,
+    name : "mohssen" ,
     stock: 300,
     limit: 300
   },
   {
     id: "m5gr84i9",
-    name : "ice cream" ,
+    name : "dali" ,
     stock: 200,
     limit: 300,
   },
@@ -120,7 +123,7 @@ export const columns: ColumnDef<Items>[] = [
   },
   {
     accessorKey: "limit",
-    header: () => <div className="text-right">Items Limit</div>,
+    header: () => <div className="text-right">Item's Limit</div>,
     cell: ({ row }) => (
       <div className="text-right font-medium">{row.getValue("limit")}</div>
     ),
@@ -168,8 +171,6 @@ export default function DataTableDemo() {
   }
           className="max-w-sm"
       />
-      
-
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
