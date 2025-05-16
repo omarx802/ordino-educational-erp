@@ -1,10 +1,12 @@
 "use client"
 
-import Link from "next/link"
-import { SearchForm } from "@/src/components/search-form"
+import React, { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
-import * as React from "react"
 import {
+  SettingsIcon,
+  HelpCircleIcon,
+  SearchIcon,
+  ArrowUpCircleIcon,
   Sparkles,
   Inbox,
   MessageSquareMore,
@@ -13,20 +15,22 @@ import {
   Users,
   LayoutDashboard,
   ShoppingCart,
-  Truck,
-
+  Truck
 } from "lucide-react"
-
+import { fetchUserTeam } from "@/src/lib/api"
 import { NavMain } from "@/src/components/nav-main"
+import { NavSecondary } from "@/src/components/nav-secondary"
 import { NavUser } from "@/src/components/nav-user"
-import { TeamDisplay } from "@/src/components/team-display"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarRail,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
 } from "@/src/components/ui/sidebar"
+
 
 
 const data = {
@@ -53,7 +57,7 @@ navMain: [
       title: "Inbox",
       url: "/inside/inbox",
       icon: Inbox,
-      badge: "10",
+      badge: "9",
     },
     {
       title: "Sales",
@@ -65,13 +69,13 @@ navMain: [
       title: "Purchases",
       url: "/inside/purshases",
       icon: Truck,
-      badge: "10",
+      badge: "2",
     },
     {
-      title: "Inventory",
-      url: "/inside/inventory",
+      title: "Logistics",
+      url: "/inside/logistics",
       icon: Package,
-      badge: "10",
+      badge: "8",
     },
     {
       title: "Finance",
@@ -86,42 +90,78 @@ navMain: [
       badge: "",
     },
   ],
+
+  navSecondary: [
+    {
+      title: "Settings",
+      url: "/inside/settings",
+      icon: SettingsIcon,
+    },
+    {
+      title: "Get Help",
+      url: "/inside/help",
+      icon: HelpCircleIcon,
+    },
+    {
+      title: "Search",
+      url: "#",
+      icon: SearchIcon,
+    },
+  ]
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const [team, setTeam] = useState<{ id: number; name: string } | null>(null)
+
+  useEffect(() => {
+    const fetchTeam = async () => {
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
+      if (token) {
+        try {
+          const teamData = await fetchUserTeam(token)
+          setTeam(teamData)
+        } catch (error) {
+          console.error("Failed to fetch team:", error)
+        }
+      }
+    }
+
+    fetchTeam()
+  }, [])
+
   const pathname = usePathname()
 
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
-        <TeamDisplay />
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              className="data-[slot=sidebar-menu-button]:!p-1.5"
+            >
+              <a href="#">
+                <ArrowUpCircleIcon className="h-5 w-5" />
+                <span className="text-base font-semibold">{team ? team.name : "Loading..."}</span>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SearchForm />
         <NavMain
           items={data.navMain.map((item) => ({
             ...item,
             isActive: pathname === item.url,
-            component: (
-              <Link href={item.url} key={item.title}>
-                <a className="flex items-center space-x-2">
-                  <item.icon className="w-5 h-5" />
-                  <span>{item.title}</span>
-                  {item.badge && (
-                    <span className="ml-auto text-sm text-gray-500">
-                      {item.badge}
-                    </span>
-                  )}
-                </a>
-              </Link>
-            ),
           }))}
         />
+        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
-  );
+  )
 }
+

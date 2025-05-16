@@ -1,20 +1,19 @@
-"use client";
+"use client"
 
-
-import { useState, useEffect } from "react";
-import { fetchUser, User, logoutUser } from "@/src/lib/api";
+import { useState, useEffect } from "react"
+import { fetchUser, User, logoutUser } from "@/src/lib/api"
 import {
   BadgeCheck,
   Bell,
-  ChevronsUpDown,
+  MoreVerticalIcon,
   LogOut,
   Settings,
-} from "lucide-react";
+} from "lucide-react"
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/src/components/ui/avatar";
+} from "@/src/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,15 +22,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/src/components/ui/dropdown-menu";
+} from "@/src/components/ui/dropdown-menu"
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/src/components/ui/sidebar";
+} from "@/src/components/ui/sidebar"
 
-export function NavUser() {
+export function NavUser(){
   const { isMobile } = useSidebar();
   
   const [user, setUser] = useState<User | null>(null);
@@ -66,7 +65,7 @@ export function NavUser() {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className="h-8 w-8 rounded-lg grayscale">
                 <AvatarImage src={user?.id} alt={user?.name} />
                 <AvatarFallback className="rounded-lg">
                   {user?.name[0]}
@@ -74,12 +73,12 @@ export function NavUser() {
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">
-                  {user?.name} {user?.surname}
+                <span className="truncate font-medium">{user?.name} {user?.surname}</span>
+                <span className="truncate text-xs text-muted-foreground">
+                  {user?.email}
                 </span>
-                <span className="truncate text-xs">{user?.email}</span>
               </div>
-              <ChevronsUpDown className="ml-auto size-4" />
+              <MoreVerticalIcon className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -91,21 +90,20 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user?.id} alt={user?.name} />
+                  <AvatarImage src={user?.avatar} alt={user?.name} />
                   <AvatarFallback className="rounded-lg">
                     {user?.name[0]}
                     {user?.surname[0]}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">
-                    {user?.name} {user?.surname}
+                  <span className="truncate font-medium">{user?.name}</span>
+                  <span className="truncate text-xs text-muted-foreground">
+                    {user?.email}
                   </span>
-                  <span className="truncate text-xs">{user?.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
@@ -130,5 +128,5 @@ export function NavUser() {
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  );
+  )
 }
