@@ -1,13 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { fetchUser, User, logoutUser } from "@/src/lib/api"
+import { logoutUser } from "@/src/lib/api"
 import {
-  BadgeCheck,
   Bell,
   MoreVerticalIcon,
   LogOut,
   Settings,
+  CircleUser,
 } from "lucide-react"
 import {
   Avatar,
@@ -30,31 +29,17 @@ import {
   useSidebar,
 } from "@/src/components/ui/sidebar"
 
-export function NavUser(){
+type UserProps = {
+  id : string;
+  name : string;
+  surname : string;
+  email : string;
+  avatar : string
+}
+
+export function NavUser({id, name, surname, email, avatar} : UserProps){
+
   const { isMobile } = useSidebar();
-  
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const loadUser = async () => {
-      setLoading(true);
-      const userData = await fetchUser();
-      if (userData) {
-        setUser(userData);
-      } else {
-        setError("Failed to load user");
-
-      }
-      setLoading(false);
-    };
-
-    loadUser();
-  }, []);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
 
   return (
     <SidebarMenu>
@@ -66,16 +51,16 @@ export function NavUser(){
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={user?.id} alt={user?.name} />
+                <AvatarImage src={id} alt={name} />
                 <AvatarFallback className="rounded-lg">
-                  {user?.name[0]}
-                  {user?.surname[0]}
+                  {name[0]}
+                  {surname[0]}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user?.name} {user?.surname}</span>
+                <span className="truncate font-medium">{name} {surname}</span>
                 <span className="truncate text-xs text-muted-foreground">
-                  {user?.email}
+                  {email}
                 </span>
               </div>
               <MoreVerticalIcon className="ml-auto size-4" />
@@ -90,16 +75,16 @@ export function NavUser(){
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user?.avatar} alt={user?.name} />
+                  <AvatarImage src={avatar} alt={name} />
                   <AvatarFallback className="rounded-lg">
-                    {user?.name[0]}
-                    {user?.surname[0]}
+                    {name[0]}
+                    {surname[0]}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user?.name}</span>
+                  <span className="truncate font-medium">{name}</span>
                   <span className="truncate text-xs text-muted-foreground">
-                    {user?.email}
+                    {email}
                   </span>
                 </div>
               </div>
@@ -107,7 +92,7 @@ export function NavUser(){
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <BadgeCheck />
+                <CircleUser />
                 Account
               </DropdownMenuItem>
               <DropdownMenuItem>

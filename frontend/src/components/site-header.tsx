@@ -16,7 +16,7 @@ const data = {
     { title: "Purchases", url: "/inside/purshases" },
     { title: "Logistics", url: "/inside/logistics" },
     { title: "Finance", url: "/inside/finance" },
-    { title: "HR", url: "/inside/hr" },
+    { title: "Human Ressources", url: "/inside/hr" },
     { title: "Settings", url: "/inside/settings" },
 ],
 };

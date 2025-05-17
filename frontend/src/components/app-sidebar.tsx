@@ -17,7 +17,7 @@ import {
   ShoppingCart,
   Truck
 } from "lucide-react"
-import { fetchUserTeam } from "@/src/lib/api"
+import { fetchUserTeam, fetchUser, User } from "@/src/lib/api"
 import { NavMain } from "@/src/components/nav-main"
 import { NavSecondary } from "@/src/components/nav-secondary"
 import { NavUser } from "@/src/components/nav-user"
@@ -112,7 +112,24 @@ navMain: [
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
+  const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [team, setTeam] = useState<{ id: number; name: string } | null>(null)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const userData = await fetchUser();
+      if (userData) {
+        setUser(userData);
+      } else {
+        setError("Failed to load user");
+
+      }
+    };
+    loadUser();
+  }, []);
+
 
   useEffect(() => {
     const fetchTeam = async () => {
@@ -130,7 +147,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     fetchTeam()
   }, [])
 
-  const pathname = usePathname()
+  if (error) return <p>Error: {error}</p>;
+  if (!user?.name || !user?.surname) return null;
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
@@ -159,7 +177,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser />
+        <NavUser id={user.id} name={user.name} surname={user.surname} avatar={user.avatar} email={user.email}/>
       </SidebarFooter>
     </Sidebar>
   )
