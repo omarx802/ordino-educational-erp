@@ -2,11 +2,11 @@
   <br>
   <a href="https://github.com/omarx802/MiniERP"><img src="https://img.shields.io/badge/MiniERP-Full%20Stack%20ERP-blue"></a>
   <br>
-  MiniERP
+  Ordino ERP
   <br>
 </h1>
 
-<h4 align="center">A Minimalist ERP System built with modern technologies.</h4>
+<h4 align="center">A Minimalist Educational ERP System built with modern technologies.</h4>
 
 <p align="center">
   <a href="https://fastapi.tiangolo.com/">
@@ -45,7 +45,7 @@
 
 ## Overview
 
-**MiniERP** is a lightweight Enterprise Resource Planning (ERP) system designed for small to medium-sized businesses. With a focus on simplicity and extensibility, MiniERP offers a streamlined user interface and robust backend to handle core business functionalities.
+**Ordino ERP** is a lightweight Enterprise Resource Planning (ERP) system designed for small to medium-sized businesses. With a focus on simplicity and extensibility, MiniERP offers a streamlined user interface and robust backend to handle core business functionalities.
 
 ---
 
@@ -128,6 +128,6 @@ MiniERP leverages the following technologies:
 
 This project is licensed under the [MIT License](LICENSE).
 
-Feel free to contribute, report issues, or suggest new features through the [issues section](https://github.com/omarx802/MiniERP/issues) of this repository.
+Feel free to contribute, report issues, or suggest new features through the [issues section](https://github.com/omarx802/ordino-educational-erp/issues) of this repository.
 
 
